@@ -1,9 +1,10 @@
 TARGET = Agar
 OBJS = main.o \
-gfx.o
+gfx.o \
+glib2d.o
 
 
-CFLAGS =
+CFLAGS = 
 CXXFLAHS = $(CFLAGS) -std=c++14 -fno-rtti
 ASFLAGS = $(CFLAGS)
 
@@ -11,6 +12,7 @@ ASFLAGS = $(CFLAGS)
 BUILD_PRX = 14
 PSP_FW_VERSION = 500
 PSP_LARGE_MEMORY = 1
+LIBS = -lpng -ljpeg -lz -lpspgu -lm -lpspvram
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Agario
