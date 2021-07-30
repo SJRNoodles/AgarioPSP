@@ -64,7 +64,7 @@ auto main() -> int {
 	
 	g2dColors colors[7] = {RED,ORANGE,YELLOW,GREEN,BLUE,VIOLET,ROSE};
 	
-	Food dots[240];
+	Food dots[100];
 	int loop = 1;
 	while (loop < 240) {
 		dots[loop].foodX = rand() % 2000 - 90;
@@ -73,12 +73,12 @@ auto main() -> int {
 		loop++;
 	}
 	
-	AI plrs[50];
+	AI plrs[25];
 	loop = 1;
-	while (loop < 50) {
+	while (loop < 25) {
 		plrs[loop].pX = rand() % 5000 - 90;
 		plrs[loop].pY = rand() % 5000 + 10;
-		plrs[loop].score = rand() % 200 + 10;
+		plrs[loop].score = rand() % 100 + 10;
 		plrs[loop].tick = rand() % 20 + 1;
 		plrs[loop].dir = rand() % 3 + 1;
 		plrs[loop].color = rand() % 7;
@@ -101,8 +101,7 @@ auto main() -> int {
 		loop2 = 1;
 		gridOff=-1024;
 		gridOff2=1;
-		while (loop2 <= 16) {
-			g2dSetTexLinear(false);
+		while (loop2 <= 4) {
 			g2dBeginRects(bg);
 			g2dSetColor(WHITE);
 			g2dSetScaleWH(512,512);
@@ -115,7 +114,7 @@ auto main() -> int {
 		
 		//food
 		loop = 1;
-		while (loop < 240) {
+		while (loop < 100) {
 			g2dBeginRects(tex);
 			g2dSetColor(colors[dots[loop].color]);
 			g2dSetScaleWH(4,4);
@@ -138,7 +137,7 @@ auto main() -> int {
 		
 		//ai players
 		loop = 1;
-		while (loop < 50) {
+		while (loop < 25) {
 			loop1 = 1;
 			g2dBeginRects(tex);
 			g2dSetColor(colors[plrs[loop].color]);
@@ -169,7 +168,7 @@ auto main() -> int {
 			}
 			
 			// ai eats pellets
-			while (loop1 <= 240) {
+			while (loop1 <= 100) {
 				if (collision((plrs[loop].pX - x) / (mass / 40) + 240 ,(plrs[loop].pY - y) / (mass / 40) + 132 , (dots[loop1].foodX - x) / (mass / 40) + 240 , (dots[loop1].foodY - y) / (mass / 40) + 132 ,plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40),4,4)) {
 					plrs[loop].score+= 10 / (plrs[loop].score / 4);
 					dots[loop1].foodX = rand() % 2000 - 90;
