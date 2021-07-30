@@ -6,6 +6,7 @@ this is an old project made using the pspdev kit, now being updated for hopefull
 players hitbox is bigger than how the player appears
 if you eat too much food and players the whole map shrinks into nothingness and player is left alone in a blank world
 ai hitboxes are goofy
+game crashes when trying to get past title screen on psp 1000
 
 ## todo
 hopefully fix the glitches (probably with help from psp development community)
