@@ -26,3 +26,9 @@ open a terminal in the src directory and type "make". itll make a EBOOT.pbp file
 make a folder and in that folder copy every png file other than ICON0.png into the folder
 put built eboot.pbp in the folder with the copyed png files and put the folder in PSP/GAME
 goto games and you will see the game
+
+## credits
+glib2d by libcg (https://github.com/libcg/gLib2D)
+agar.io by Matheus Valadares (https://agar.io)
+Youtube user Iridescence for his PSP Development tutorials (https://www.youtube.com/channel/UCSTmaB4YZmnyUSAoerATnsg)
+paint.net by paint.net team (https://www.getpaint.net/download.html)
