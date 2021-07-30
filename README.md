@@ -1,12 +1,15 @@
 # agar.io PSP edition
 
-this is an old project made using the pspdev kit
+this is an old project made using the pspdev kit, now being updated for hopefully some time
 
 ## bugs
-frame buffer is odd. i planned on adding a new graphics thingy but i dont have one to use at the moment
-game crashes if glitched dots hit top edge
+players hitbox is bigger than how the player appears
+if you eat too much food and players the whole map shrinks into nothingness and player is left alone in a blank world
 
-if anyone finds fixes for the glitches that would be great
+## todo
+hopefully fix the glitches (probably with help from psp development community)
+add textures to everything to make them look like circles
+add viruses (green spiky circles)
 
 ## building
 open a terminal in the src directory and type "make". itll make a EBOOT.pbp file for you to play
