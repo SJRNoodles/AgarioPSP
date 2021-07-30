@@ -267,6 +267,9 @@ auto main() -> int {
 			if (ctrlData.Buttons & PSP_CTRL_DOWN) {
 				dir = 4;
 			}
+			if (ctrlData.Buttons & PSP_CTRL_CIRCLE) {
+				state=0;
+			}
 
 			if (dir == 1) {
 				x = x - (40 / (mass / 4));
