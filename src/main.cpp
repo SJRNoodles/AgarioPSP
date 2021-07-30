@@ -179,7 +179,7 @@ auto main() -> int {
 			
 			loop1 = 1;
 			
-			while (loop1 <= 25) {
+			while (loop1 <= 24) {
 				// ai eat ai
 				if (collision((plrs[loop].pX - x) / (mass / 40) + 240 ,(plrs[loop].pY - y) / (mass / 40) + 132 , (plrs[loop1].pX - x) / (mass / 40) + 240 , (plrs[loop1].pY - y) / (mass / 40) + 132 ,plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40),plrs[loop1].score / (mass / 40),plrs[loop1].score / (mass / 40))) {
 					if (plrs[loop].score > plrs[loop1].score + 30) {
