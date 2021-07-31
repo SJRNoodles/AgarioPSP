@@ -9,10 +9,9 @@
 
 this is an old project made using the pspdev kit, now being updated for hopefully some time
 
-## bugs
+## known bugs
 players hitbox is bigger than how the player appears
 if you eat too much food and players the whole map shrinks into nothingness and player is left alone in a blank world
-ai hitboxes are goofy
 
 THE CRASHING IS FIXED! it was because the player's small was smaller than 40
 
@@ -24,7 +23,7 @@ add viruses (green spiky circles)
 open a terminal in the src directory and type "make". itll make a EBOOT.pbp file for you to play
 
 ## putting on your psp
-make a folder and in that folder copy every png file other than ICON0.png into the folder
+make a folder and in that folder copy every png file other than ICON0.png and PIC1.png into the folder
 put built eboot.pbp in the folder with the copyed png files and put the folder in PSP/GAME
 goto games and you will see the game
 

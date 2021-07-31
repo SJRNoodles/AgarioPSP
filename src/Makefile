@@ -17,6 +17,7 @@ LIBS = -lpng -ljpeg -lz -lpspgu -lm -lpspvram
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Agario
 PSP_EBOOT_ICON = ICON0.PNG
+PSP_EBOOT_PIC1 = PIC1.PNG
 
 PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak
