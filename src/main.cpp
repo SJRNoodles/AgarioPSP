@@ -64,33 +64,27 @@ auto main() -> int {
 	g2dTexture* tex = g2dTexLoad("cell.png",G2D_SWIZZLE);
 	
 	Food dots[100];
-	int loop = 1;
-	while (loop <= 100) {
-		dots[loop].foodX = rand() % 2000 - 90;
-		dots[loop].foodY = rand() % 2000 + 10;
-		dots[loop].color = rand() % 7;
-		loop++;
+	for (int i = 0; i < 100; i++) {
+		dots[i].foodX = rand() % 2000 - 90;
+		dots[i].foodY = rand() % 2000 + 10;
+		dots[i].color = rand() % 7;
 	}
 	
 	AI plrs[25];
-	loop = 1;
-	while (loop <= 25) {
-		plrs[loop].pX = rand() % 2000 - 90;
-		plrs[loop].pY = rand() % 2000 + 10;
-		plrs[loop].score = rand() % 100 + 10;
-		plrs[loop].tick = rand() % 20 + 1;
-		plrs[loop].dir = rand() % 3 + 1;
-		plrs[loop].color = rand() % 7;
-		loop++;
+	for (int i = 0; i < 25; i++) {
+		plrs[i].pX = rand() % 2000 - 90;
+		plrs[i].pY = rand() % 2000 + 10;
+		plrs[i].score = rand() % 100 + 10;
+		plrs[i].tick = rand() % 20 + 1;
+		plrs[i].dir = rand() % 3 + 1;
+		plrs[i].color = rand() % 7;
 	}
 
-	Virus spots[10];
-	loop = 1;
-	while (loop < 1) {
-		spots[loop].virX = rand() % 480 - 90;
-		spots[loop].virY = rand() % 272 + 10;
-		loop++;
-	}
+	//Virus spots[10]; // unused for now
+	//while (loop < 1) {
+	//	spots[loop].virX = rand() % 480 - 90;
+	//	spots[loop].virY = rand() % 272 + 10;
+	//}
 	SceCtrlData ctrlData;
 	while (running == 1) {
 		if (state == 1) {
@@ -112,33 +106,24 @@ auto main() -> int {
 		}
 		
 		//food
-		loop = 1;
-		while (loop < 100) {
+		for (int i = 0; i < 100; i++) {
 			g2dBeginRects(NULL);
 			g2dSetColor(BLUE);
 			g2dSetScaleWH(4,4);
-			g2dSetCoordXY((dots[loop].foodX - x) / (mass / 40) + 240,(dots[loop].foodY - y) / (mass / 40) + 132);
+			g2dSetCoordXY((dots[i].foodX - x) / (mass / 40) + 240,(dots[i].foodY - y) / (mass / 40) + 132);
 			g2dAdd();
 			g2dEnd();
 
-
-
-
 			// collision detection for player
-			if (collision(240 + (massSize / 2) ,132 + (massSize / 2) , (dots[loop].foodX - x) / (mass / 40) + 240 , (dots[loop].foodY - y) / (mass / 40) + 132 ,massSize,massSize,4,4)) {
+			if (collision(240 + (massSize / 2) ,132 + (massSize / 2) , (dots[i].foodX - x) / (mass / 40) + 240 , (dots[i].foodY - y) / (mass / 40) + 132 ,massSize,massSize,4,4)) {
 				mass+= 10 / (massSize / 4);
-				dots[loop].foodX = rand() % 2000 - 90;
-				dots[loop].foodY = rand() % 2000 + 10;
+				dots[i].foodX = rand() % 2000 - 90;
+				dots[i].foodY = rand() % 2000 + 10;
 			}
-			
-
-			loop++;
 		}
 		
 		//ai players
-		loop = 1;
-		while (loop < 25) {
-			loop1 = 1;
+		for (int loop = 0; loop < 25; loop++) {
 			g2dBeginRects(tex);
 			g2dSetColor(ORANGE);
 			g2dSetScaleWH(plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40));
@@ -169,33 +154,29 @@ auto main() -> int {
 			}
 			
 			// ai eats pellets
-			while (loop1 <= 100) {
-				if (collision((plrs[loop].pX - x) / (mass / 40) + 240 ,(plrs[loop].pY - y) / (mass / 40) + 132 , (dots[loop1].foodX - x) / (mass / 40) + 240 , (dots[loop1].foodY - y) / (mass / 40) + 132 ,plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40),4,4)) {
+			for (int i2 = 0; i2 < 100; i2++) {
+				if (collision((plrs[loop].pX - x) / (mass / 40) + 240 ,(plrs[loop].pY - y) / (mass / 40) + 132 , (dots[i2].foodX - x) / (mass / 40) + 240 , (dots[i2].foodY - y) / (mass / 40) + 132 ,plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40),4,4)) {
 					plrs[loop].score+= 10 / (plrs[loop].score / 4);
-					dots[loop1].foodX = rand() % 2000 - 90;
-					dots[loop1].foodY = rand() % 2000 + 10;
+					dots[i2].foodX = rand() % 2000 - 90;
+					dots[i2].foodY = rand() % 2000 + 10;
 				}
-				loop1++;
 			}
 			
-			loop1 = 1;
-			
-			while (loop1 <= 24) {
+			for (int i3 = 0; i3 < 25; i3++) {
 				// ai eat ai
-				if (collision((plrs[loop].pX - x) / (mass / 40) + 240 ,(plrs[loop].pY - y) / (mass / 40) + 132 , (plrs[loop1].pX - x) / (mass / 40) + 240 , (plrs[loop1].pY - y) / (mass / 40) + 132 ,plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40),plrs[loop1].score / (mass / 40),plrs[loop1].score / (mass / 40))) {
+				if (collision((plrs[loop].pX - x) / (mass / 40) + 240 ,(plrs[loop].pY - y) / (mass / 40) + 132 , (plrs[i3].pX - x) / (mass / 40) + 240 , (plrs[i3].pY - y) / (mass / 40) + 132 ,plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40),plrs[i3].score / (mass / 40),plrs[i3].score / (mass / 40))) {
 					if (plrs[loop].score > plrs[loop1].score + 30) {
 						plrs[loop].score += (plrs[loop1].score / 4);
-						plrs[loop1].score = 10;
-						plrs[loop1].pX = rand() % 1000 - 90;
-						plrs[loop1].pY = rand() % 1000 + 10;
+						plrs[i3].score = 10;
+						plrs[i3].pX = rand() % 1000 - 90;
+						plrs[i3].pY = rand() % 1000 + 10;
 					}else if (plrs[loop1].score > plrs[loop].score + 30) {
-						plrs[loop1].score += (plrs[loop1].score / 4);
+						plrs[i3].score += (plrs[loop1].score / 4);
 						plrs[loop].score = 10;
 						plrs[loop].pX = rand() % 1000 - 90;
 						plrs[loop].pY = rand() % 1000 + 10;
 					}
 				}
-				loop1++;
 			}
 			
 			// collision detection for player
@@ -209,25 +190,21 @@ auto main() -> int {
 				if (plrs[loop].score > mass) {
 					x = 0;
 					y = 0;
-					mass = 10;
+					mass = 20;
 					
 					// reset positions of all players
-					
-					loop2 = 1;
-					while (loop2 < 100) {
-						plrs[loop].pX = rand() % 1000 - 90;
-						plrs[loop].pY = rand() % 1000 + 10;
-						plrs[loop].score = rand() % 200 + 10;
-						plrs[loop].tick = rand() % 20 + 1;
-						plrs[loop].dir = rand() % 3 + 1;
-						plrs[loop].color = rand() % 7;
-						loop2++;
+					for (int i4 = 0; i4 < 100; i4++) {
+						plrs[i4].pX = rand() % 1000 - 90;
+						plrs[i4].pY = rand() % 1000 + 10;
+						plrs[i4].score = rand() % 200 + 10;
+						plrs[i4].tick = rand() % 20 + 1;
+						plrs[i4].dir = rand() % 3 + 1;
+						plrs[i4].color = rand() % 7;
 					}
 					
 					state = 0;
 				}
 			}
-			loop++;
 		}
 	
 			//controls
