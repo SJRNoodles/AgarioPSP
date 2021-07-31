@@ -65,7 +65,7 @@ auto main() -> int {
 	
 	Food dots[100];
 	int loop = 1;
-	while (loop < 240) {
+	while (loop <= 100) {
 		dots[loop].foodX = rand() % 2000 - 90;
 		dots[loop].foodY = rand() % 2000 + 10;
 		dots[loop].color = rand() % 7;
@@ -74,7 +74,7 @@ auto main() -> int {
 	
 	AI plrs[25];
 	loop = 1;
-	while (loop < 25) {
+	while (loop <= 25) {
 		plrs[loop].pX = rand() % 2000 - 90;
 		plrs[loop].pY = rand() % 2000 + 10;
 		plrs[loop].score = rand() % 100 + 10;
