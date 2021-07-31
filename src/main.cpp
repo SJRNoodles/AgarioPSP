@@ -16,7 +16,7 @@
 PSP_MODULE_INFO("agario", 0, 1, 0);
 PSP_HEAP_SIZE_KB(-256);
 
-int mass = 20;
+int mass = 45;
 int massSize = mass;
 int dir = 1;
 
@@ -51,7 +51,7 @@ struct AI {
 public:
 	    int pX = 10;
 		int pY = 10;
-		int score = 10;
+		int score = 45;
 		int color = 10;
 		int dir = 1;
 		int tick = 1;
@@ -63,18 +63,20 @@ auto main() -> int {
 	g2dTexture* title = g2dTexLoad("title.png",G2D_SWIZZLE);
 	g2dTexture* tex = g2dTexLoad("cell.png",G2D_SWIZZLE);
 	
-	Food dots[100];
-	for (int i = 0; i < 100; i++) {
+	g2dColors color[7] = {RED,ORANGE,YELLOW,GREEN,BLUE,VIOLET,ROSE};
+	
+	Food dots[250];
+	for (int i = 0; i < 250; i++) {
 		dots[i].foodX = rand() % 2000 - 90;
 		dots[i].foodY = rand() % 2000 + 10;
 		dots[i].color = rand() % 7;
 	}
 	
-	AI plrs[25];
-	for (int i = 0; i < 25; i++) {
+	AI plrs[60];
+	for (int i = 0; i < 60; i++) {
 		plrs[i].pX = rand() % 2000 - 90;
 		plrs[i].pY = rand() % 2000 + 10;
-		plrs[i].score = rand() % 100 + 10;
+		plrs[i].score = rand() % 300 + 60;
 		plrs[i].tick = rand() % 20 + 1;
 		plrs[i].dir = rand() % 3 + 1;
 		plrs[i].color = rand() % 7;
@@ -106,9 +108,9 @@ auto main() -> int {
 		}
 		
 		//food
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 250; i++) {
 			g2dBeginRects(NULL);
-			g2dSetColor(BLUE);
+			g2dSetColor(color[dots[i].color]);
 			g2dSetScaleWH(4,4);
 			g2dSetCoordXY((dots[i].foodX - x) / (mass / 40) + 240,(dots[i].foodY - y) / (mass / 40) + 132);
 			g2dAdd();
@@ -123,9 +125,9 @@ auto main() -> int {
 		}
 		
 		//ai players
-		for (int loop = 0; loop < 25; loop++) {
+		for (int loop = 0; loop < 60; loop++) {
 			g2dBeginRects(tex);
-			g2dSetColor(ORANGE);
+			g2dSetColor(color[plrs[loop].color]);
 			g2dSetScaleWH(plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40));
 			g2dSetCoordXY((plrs[loop].pX - x) / (mass / 40) + 240,(plrs[loop].pY - y) / (mass / 40) + 132);
 			g2dAdd();
@@ -154,7 +156,7 @@ auto main() -> int {
 			}
 			
 			// ai eats pellets
-			for (int i2 = 0; i2 < 100; i2++) {
+			for (int i2 = 0; i2 < 240; i2++) {
 				if (collision((plrs[loop].pX - x) / (mass / 40) + 240 ,(plrs[loop].pY - y) / (mass / 40) + 132 , (dots[i2].foodX - x) / (mass / 40) + 240 , (dots[i2].foodY - y) / (mass / 40) + 132 ,plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40),4,4)) {
 					plrs[loop].score+= 10 / (plrs[loop].score / 4);
 					dots[i2].foodX = rand() % 2000 - 90;
@@ -162,19 +164,19 @@ auto main() -> int {
 				}
 			}
 			
-			for (int i3 = 0; i3 < 25; i3++) {
+			for (int i3 = 0; i3 < 60; i3++) {
 				// ai eat ai
 				if (collision((plrs[loop].pX - x) / (mass / 40) + 240 ,(plrs[loop].pY - y) / (mass / 40) + 132 , (plrs[i3].pX - x) / (mass / 40) + 240 , (plrs[i3].pY - y) / (mass / 40) + 132 ,plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40),plrs[i3].score / (mass / 40),plrs[i3].score / (mass / 40))) {
 					if (plrs[loop].score > plrs[loop1].score + 30) {
 						plrs[loop].score += (plrs[loop1].score / 4);
-						plrs[i3].score = 10;
-						plrs[i3].pX = rand() % 1000 - 90;
-						plrs[i3].pY = rand() % 1000 + 10;
+						plrs[i3].score = rand() % 100 + 10;
+						plrs[i3].pX = rand() % 2000 - 90;
+						plrs[i3].pY = rand() % 2000 + 10;
 					}else if (plrs[loop1].score > plrs[loop].score + 30) {
 						plrs[i3].score += (plrs[loop1].score / 4);
-						plrs[loop].score = 10;
-						plrs[loop].pX = rand() % 1000 - 90;
-						plrs[loop].pY = rand() % 1000 + 10;
+						plrs[loop].score = rand() % 100 + 10;
+						plrs[loop].pX = rand() % 2000 - 90;
+						plrs[loop].pY = rand() % 2000 + 10;
 					}
 				}
 			}
@@ -184,19 +186,19 @@ auto main() -> int {
 				if (mass > plrs[loop].score + 30) {
 					mass += (plrs[loop].score / 4);
 					plrs[loop].score = 10;
-					plrs[loop].pX = rand() % 1000 - 90;
-					plrs[loop].pY = rand() % 1000 + 10;
-				}
-				if (plrs[loop].score > mass) {
+					plrs[loop].pX = rand() % 2000 - 90;
+					plrs[loop].pY = rand() % 2000 + 10;
+				} else if (plrs[loop].score > mass - 5) {
+				
 					x = 0;
 					y = 0;
-					mass = 20;
+					mass = 45;
 					
 					// reset positions of all players
 					for (int i4 = 0; i4 < 100; i4++) {
-						plrs[i4].pX = rand() % 1000 - 90;
-						plrs[i4].pY = rand() % 1000 + 10;
-						plrs[i4].score = rand() % 200 + 10;
+						plrs[i4].pX = rand() % 2000 - 90;
+						plrs[i4].pY = rand() % 2000 + 10;
+						plrs[loop].score = rand() % 100 + 10;
 						plrs[i4].tick = rand() % 20 + 1;
 						plrs[i4].dir = rand() % 3 + 1;
 						plrs[i4].color = rand() % 7;
