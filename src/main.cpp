@@ -14,8 +14,9 @@
 
 
 PSP_MODULE_INFO("agario", 0, 1, 0);
+PSP_HEAP_SIZE_KB(-256);
 
-int mass = 10;
+int mass = 20;
 int massSize = mass;
 int dir = 1;
 
@@ -62,8 +63,6 @@ auto main() -> int {
 	g2dTexture* title = g2dTexLoad("title.png",G2D_SWIZZLE);
 	g2dTexture* tex = g2dTexLoad("cell.png",G2D_SWIZZLE);
 	
-	g2dColors colors[7] = {RED,ORANGE,YELLOW,GREEN,BLUE,VIOLET,ROSE};
-	
 	Food dots[100];
 	int loop = 1;
 	while (loop < 240) {
@@ -76,8 +75,8 @@ auto main() -> int {
 	AI plrs[25];
 	loop = 1;
 	while (loop < 25) {
-		plrs[loop].pX = rand() % 5000 - 90;
-		plrs[loop].pY = rand() % 5000 + 10;
+		plrs[loop].pX = rand() % 2000 - 90;
+		plrs[loop].pY = rand() % 2000 + 10;
 		plrs[loop].score = rand() % 100 + 10;
 		plrs[loop].tick = rand() % 20 + 1;
 		plrs[loop].dir = rand() % 3 + 1;
@@ -107,19 +106,20 @@ auto main() -> int {
 			g2dSetScaleWH(512,512);
 			g2dSetCoordXY(((round(x / 128) * 128) - x - (gridOff)) / (mass / 40),((round(y / 128) * 128) - y - (gridOff2))/ (mass / 40));
 			g2dAdd();
+			g2dEnd();
 			gridOff+=512;
 			loop2++;
 		}
-		g2dEnd();
 		
 		//food
 		loop = 1;
 		while (loop < 100) {
-			g2dBeginRects(tex);
-			g2dSetColor(colors[dots[loop].color]);
+			g2dBeginRects(NULL);
+			g2dSetColor(BLUE);
 			g2dSetScaleWH(4,4);
 			g2dSetCoordXY((dots[loop].foodX - x) / (mass / 40) + 240,(dots[loop].foodY - y) / (mass / 40) + 132);
 			g2dAdd();
+			g2dEnd();
 
 
 
@@ -140,10 +140,11 @@ auto main() -> int {
 		while (loop < 25) {
 			loop1 = 1;
 			g2dBeginRects(tex);
-			g2dSetColor(colors[plrs[loop].color]);
+			g2dSetColor(ORANGE);
 			g2dSetScaleWH(plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40));
 			g2dSetCoordXY((plrs[loop].pX - x) / (mass / 40) + 240,(plrs[loop].pY - y) / (mass / 40) + 132);
 			g2dAdd();
+			g2dEnd();
 			plrs[loop].tick++;
 			if(plrs[loop].tick >= plrs[loop].score * 2){
 				plrs[loop].tick = 0;
@@ -229,29 +230,6 @@ auto main() -> int {
 			loop++;
 		}
 	
-		// spiky things
-		loop = 1;
-		while (loop < 1) {
-			// todo
-			if (spots[loop].virX > 232 - y) {
-
-			}
-			else {
-				if (spots[loop].virY > 232 + y) {
-
-				}
-				else {
-					g2dBeginRects(NULL);
-					g2dSetColor(GREEN);
-					g2dSetScaleWH(25,25);
-					g2dSetCoordXY(spots[loop].virX - x,spots[loop].virY - y);
-					g2dAdd();
-				}
-			}
-			loop++;
-		}
-
-
 			//controls
 			sceCtrlReadBufferPositive(&ctrlData, 1);
 			if (ctrlData.Buttons & PSP_CTRL_LEFT) {

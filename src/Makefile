@@ -9,7 +9,7 @@ CXXFLAHS = $(CFLAGS) -std=c++14 -fno-rtti
 ASFLAGS = $(CFLAGS)
 
 #PSP
-BUILD_PRX = 14
+BUILD_PRX = 1
 PSP_FW_VERSION = 500
 PSP_LARGE_MEMORY = 1
 LIBS = -lpng -ljpeg -lz -lpspgu -lm -lpspvram
