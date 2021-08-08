@@ -46,6 +46,7 @@ struct Virus {
 public:
 	    int virX = 10;
 		int virY = 10;
+		int type = 0;
 };
 
 struct AI {
@@ -67,6 +68,7 @@ auto main() -> int {
 	g2dTexture* bg = g2dTexLoad("grid.png",G2D_SWIZZLE);
 	g2dTexture* title = g2dTexLoad("title.png",G2D_SWIZZLE);
 	g2dTexture* tex = g2dTexLoad("cell.png",G2D_SWIZZLE);
+	g2dTexture* vir = g2dTexLoad("vir.png",G2D_SWIZZLE);
 	
 	g2dColors color[7] = {RED,ORANGE,YELLOW,GREEN,BLUE,VIOLET,ROSE};
 	
@@ -74,6 +76,12 @@ auto main() -> int {
 	int mySkin = 1;
 	
 	g2dTexture* plr_skin = g2dTexLoad(skins[mySkin],G2D_SWIZZLE);
+	
+	Virus spikes[25];
+	for (int i = 0; i < 25; i++) {
+		spikes[i].virX = rand() % 2000 - 90;
+		spikes[i].virY = rand() % 2000 + 10;
+	}
 	
 	Food dots[250];
 	for (int i = 0; i < 250; i++) {
@@ -96,11 +104,6 @@ auto main() -> int {
 		}
 	}
 
-	//Virus spots[10]; // unused for now
-	//while (loop < 1) {
-	//	spots[loop].virX = rand() % 480 - 90;
-	//	spots[loop].virY = rand() % 272 + 10;
-	//}
 	SceCtrlData ctrlData;
 	while (running == 1) {
 		if (state == 1) {
@@ -186,6 +189,17 @@ auto main() -> int {
 					dots[i2].foodY = rand() % 2000 + 10;
 				}
 			}
+
+			// ai collide with virus
+			for (int i2 = 0; i2 < 25; i2++) {
+				if (collision((plrs[loop].pX - x) / (mass / 40) + 240 + plrs[loop].score ,(plrs[loop].pY - y) / (mass / 40) + 132 + plrs[loop].score , (spikes[i2].virX - x) / (mass / 40) + 240 , (spikes[i2].virY - y) / (mass / 40) + 132 ,plrs[loop].score / (mass / 40),plrs[loop].score / (mass / 40),50 / (mass / 40),50 / (mass / 40))) {
+					if (plrs[loop].score > 80) {
+						plrs[loop].score - 25;
+						spikes[i2].virX = rand() % 2000 - 90;
+						spikes[i2].virY = rand() % 2000 + 10;
+					}
+				}
+			}
 			
 			for (int i3 = 0; i3 < 60; i3++) {
 				// ai eat ai
@@ -263,6 +277,55 @@ auto main() -> int {
 				state=0;
 			}
 
+			//cell
+
+			// player is rendered before virus so it looks like player can hide behind them!
+			g2dBeginRects(tex);
+			g2dSetColor(RED);
+			g2dSetScaleWH(massSize / (mass / 40),massSize / (mass / 40));
+			g2dSetCoordXY((480 - massSize / (mass / 40)) / 2 ,(272 - massSize / (mass / 40)) / 2);
+			massSize = mass / 2;
+
+			g2dAdd();
+			g2dEnd();
+
+			// skin (added onto cell if skin is chosen)
+			if(mySkin != 0){
+				// apply the skin!
+				g2dBeginRects(plr_skin);
+				g2dSetColor(WHITE);
+				g2dSetScaleWH(massSize / (mass / 40),massSize / (mass / 40));
+				g2dSetCoordXY((480 - massSize / (mass / 40)) / 2 ,(272 - massSize / (mass / 40)) / 2);
+
+				g2dAdd();
+				g2dEnd();
+			}
+
+			// viruses
+			for (int i = 0; i < 25; i++) {
+				g2dBeginRects(vir);
+				g2dSetColor(GREEN);
+				if (spikes[i].type = 1) {
+					// experimental cell
+					g2dSetColor(RED);
+				}
+				g2dSetScaleWH(50 / (mass / 40),50 / (mass / 40));
+				g2dSetCoordXY((spikes[i].virX - x) / (mass / 40) + 240,(spikes[i].virY - y) / (mass / 40) + 132);
+				g2dAdd();
+				g2dEnd();
+
+				// collision detection for player
+				if (collision(240 + (massSize / 2) ,132 + (massSize / 2) , (spikes[i].virX - x) / (mass / 40) + 240 , (spikes[i].virY - y) / (mass / 40) + 132 ,massSize,massSize,50 / (mass / 40),50 / (mass / 40))) {
+					if (mass > 80) {
+						if (mass - 25 > 40) {
+							mass -= 25;
+							spikes[i].virX = rand() % 2000 - 90;
+							spikes[i].virY = rand() % 2000 + 10;
+						}
+					}
+				}
+			}
+
 			if (dir == 1) {
 				x = x - (40 / (mass / 4));
 				x = x - 1;
@@ -278,30 +341,6 @@ auto main() -> int {
 			if (dir == 4) {
 				y = y + (40 / (mass / 4));
 				y = y + 1;
-			}
-
-
-
-			//cell
-			g2dBeginRects(tex);
-			g2dSetColor(RED);
-			g2dSetScaleWH(massSize / (mass / 40),massSize / (mass / 40));
-			g2dSetCoordXY((480 - massSize / (mass / 40)) / 2 ,(272 - massSize / (mass / 40)) / 2);
-			massSize = mass / 2;
-
-			g2dAdd();
-			g2dEnd();
-			
-			// skin (added onto cell if skin is chosen)
-			if(mySkin != 0){
-				// apply the skin!
-				g2dBeginRects(plr_skin);
-				g2dSetColor(WHITE);
-				g2dSetScaleWH(massSize / (mass / 40),massSize / (mass / 40));
-				g2dSetCoordXY((480 - massSize / (mass / 40)) / 2 ,(272 - massSize / (mass / 40)) / 2);
-
-				g2dAdd();
-				g2dEnd();
 			}
 
 			g2dFlip(G2D_VSYNC);
