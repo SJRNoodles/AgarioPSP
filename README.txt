@@ -16,8 +16,7 @@ if you eat too much food and players the whole map shrinks into nothingness and 
 THE CRASHING IS FIXED! it was because the player's small was smaller than 40
 
 ## todo
-hopefully fix the glitches (probably with help from psp development community)
-add viruses (green spiky circles)
+nothing
 
 ## building
 open a terminal in the src directory and type "make". itll make a EBOOT.pbp file for you to play
